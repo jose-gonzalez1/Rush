@@ -8,11 +8,42 @@ public class PlayerCollider : MonoBehaviour
     [SerializeField] public bool CheckpointSecured = false;
     Transform pos;
 
+    PlayerScore player;
+
+    string ScoreKey = "Score";
+
+    public float timeAccumalated = 0;
+    public bool startTimer = false;
+
+
+
     void Start()
     {
+        startTimer = true;
+        player = GetComponent<PlayerScore>();
+        if( SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            SavePrefs();
+        }       
+        LoadPrefs();
         pos = GetComponent<Transform>();
     }
 
+    void Update()
+    {
+        timeAccumalated += Time.deltaTime;
+    }
+
+    public void SavePrefs()
+    {
+        PlayerPrefs.SetFloat(ScoreKey, player.score);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadPrefs()
+    {
+        player.score = PlayerPrefs.GetFloat(ScoreKey, 0);
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Trap"))
@@ -32,6 +63,11 @@ public class PlayerCollider : MonoBehaviour
 
         else if (collision.gameObject.CompareTag("Finish") && CheckpointSecured)
         {
+            timeAccumalated = Mathf.FloorToInt(timeAccumalated % 60);
+            player.score = player.score - (10 * timeAccumalated);
+            SavePrefs();
+            Debug.Log(player.score);
+            Debug.Log(timeAccumalated);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
