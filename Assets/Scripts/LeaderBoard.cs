@@ -17,9 +17,7 @@ public class LeaderBoard : MonoBehaviour
         
         LoadPrefs();
 
-        // finalScore = player.score;
-        text.text = finalScore.ToString();
-        // Debug.Log(finalScore);
+        text.text = PlayerPrefs.GetInt("Score",0).ToString();
     }
     public void LoadPrefs()
     {

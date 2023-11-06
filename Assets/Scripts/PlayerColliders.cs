@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerCollider : MonoBehaviour
 {
@@ -36,13 +37,13 @@ public class PlayerCollider : MonoBehaviour
 
     public void SavePrefs()
     {
-        PlayerPrefs.SetFloat(ScoreKey, player.score);
+        PlayerPrefs.SetInt(ScoreKey, player.score);
         PlayerPrefs.Save();
     }
 
     public void LoadPrefs()
     {
-        player.score = PlayerPrefs.GetFloat(ScoreKey, 0);
+        player.score = PlayerPrefs.GetInt(ScoreKey, 0);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -64,7 +65,7 @@ public class PlayerCollider : MonoBehaviour
         else if (collision.gameObject.CompareTag("Finish") && CheckpointSecured)
         {
             timeAccumalated = Mathf.FloorToInt(timeAccumalated % 60);
-            player.score = player.score - (10 * timeAccumalated);
+            player.score = player.score - (10 * Convert.ToInt32(timeAccumalated));
             SavePrefs();
             Debug.Log(player.score);
             Debug.Log(timeAccumalated);
