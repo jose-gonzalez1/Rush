@@ -6,7 +6,7 @@ using UnityEngine.Audio;
 
 public class Menu : MonoBehaviour
 {
-    public AudioSource audio;
+    public new AudioSource audio;
     public void Start()
     {
         audio = GetComponent<AudioSource>();
