@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class PlayerScore : MonoBehaviour
 {
-    [SerializeField] public int score = 1000;
+    [SerializeField] public int score = 10000;
 }
